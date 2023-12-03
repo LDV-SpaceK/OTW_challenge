@@ -1,0 +1,178 @@
+Level 0:
+ssh bandit0@bandit.labs.overthewire.org -p 2220
+bandit0
+Level 0-1: 
+ssh bandit0@bandit.labs.overthewire.org -p 2220
+bandit0
+ls->cat readme
+NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
+
+Level 1-2:
+ssh bandit1@bandit.labs.overthewire.org -p 2220
+NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL
+ls -al
+cat ./-
+rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+
+Level 2-3:
+ssh bandit2@bandit.labs.overthewire.org -p 2220
+rRGizSaX8Mk1RTb1CNQoXTcYZWU6lgzi
+ls -al
+cat spaces\in\this\filename(cat "spaces in this filename")
+aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+
+level 3-4:
+ssh bandit3@bandit.labs.overthewire.org -p 2220
+aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG
+ls -la
+cat inhere/.hidden
+2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
+
+level 4-5:
+ssh bandit4@bandit.labs.overthewire.org -p 2220
+2EW7BBsr6aMMoJ2HjW067dm8EgX26xNe
+ls -la
+cd inhere
+ls -al
+file ./* to see data of file -> only file07 is ascii text
+cat ./-file07
+lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+
+level 5-6:
+ssh bandit5@bandit.labs.overthewire.org -p 2220
+lrIWWI6bB37kxfiCQZqUdOIYfr6eEeqR
+ls -al
+cd inhere
+ls -al
+man find 
+find . -type f -readable -size 1033c ! -executable
+-> ./maybehere07/.file2
+cat ./maybehere07/.file2
+P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
+
+level 6-7:
+ssh bandit6@bandit.labs.overthewire.org -p 2220
+P4L4vucdmLnm8I7Vl7jG1ApGSfjYKqJU
+ls -la
+find / -type f -user bandit7 -group bandit6 -size 33c 2>/dev/null
+2>/dev/null: Redirects error messages (stderr) to /dev/null, which means any error messages will be suppressed.
+-> /var/lib/dpkg/info/bandit7.password
+cat /var/lib/dpkg/info/bandit7.password
+z7WtoNQU2XfjmMtWA8u5rN4vzqu4v99S
+
+level 7-8: 
+ssh bandit7@bandit.labs.overthewire.org -p 2220
+z7WtoNQU2XfjmMtWA8u5rN4vzqu4v99S
+ls -al
+cat data.txt | grep "millionth"
+TESKZC0XvTetK0S9xNwm25STk5iWrBvP
+
+level 8-9:
+ssh bandit8@bandit.labs.overthewire.org -p 2220
+TESKZC0XvTetK0S9xNwm25STk5iWrBvP
+ls -al
+man uniq
+man sort
+uniq -u only work if the list is sorted
+sort data.txt | uniq -u
+EN632PlfYiZbn3PhVK3XOGSlNInNE00t
+
+level 9-10:
+ssh bandit9@bandit.labs.overthewire.org -p 2220
+EN632PlfYiZbn3PhVK3XOGSlNInNE00t
+ls -al
+strings data.txt | grep "======="(several "=")
+G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
+
+level 10-11:
+ssh bandit10@bandit.labs.overthewire.org -p 2220
+G7w8LIi6J3kTb8A7j9LgrywtEUlyyp6s
+ls -al
+man base64
+cat data.txt | base64 -d
+6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
+
+level 11-12:
+ssh bandit11@bandit.labs.overthewire.org -p 2220
+6zPeziLdR2RKNdNYFNb6nVCKzphlXHBM
+ls -al
+Rot13 on Wikipedia
+cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
+
+level 12-13:
+ssh bandit12@bandit.labs.overthewire.org -p 2220
+JVNBBFSmZwKKOP0XbFXOoW8chDz5yVRv
+ls -al
+cd /tmp
+mkdir /tmp/datacopy
+cd datacopy
+cp ~/data.txt datacopy
+mv datacopy hexdump
+xxd -r hexdump hexdump_reverse(reverse hexdump into new file hexdump_reverse)
+file hexdump_reverse(gzip compressed file)
+mv hexdum_reverse hex.gz(have to rename file extension to unzip by gzip)
+gzip -d hex.gz(after decompress I have a hex file)
+file hex(bzip2 compressed file)
+mv hex hex.bz2
+bzip2 -d hex.bz2(after decompress I have hex file)
+file hex(tar compressed file)
+mv hex hex.tar
+tar -xf hex.tar(after decompress, I have data5.bin) 
+file data5.bin(tar compressed file)
+mv data5.bin pass.tar
+tar -xf pass.tar(data6.bin)
+file data6.bin(bzip2)
+mv data6.bin pass.bz2
+bzip2 -d pass.bz2(pass)
+file pass(tar file)
+mv pass pass1.tar
+tar -xf pass1.tar(data8.bin)
+file data8.bin(gzip)
+mv data8.bin data8.gz
+gzip -d data8.gz(data8)
+file data8(now I have a ASCII text)
+cat data8-> password
+wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
+
+level 13-14:
+ssh bandit13@bandit.labs.overthewire.org -p 2220
+wbWdlBxEir4CaE8LaPhauuOo6pwRmrDw
+ls -al
+we have sshkey.private
+cat sshkey.private
+(after opening this file, I copied it)
+exit
+echo "(pasted what I copied in sshkey.private )" > bandit14.key
+ssh -i bandit14.key bandit14@bandit.labs.overthewire.org -p 2220
+but bandit14.key permission is 0664 and cannot be accessed
+chmod 700 bandit14.key(give permission 700 for bandit14.key)
+ssh -i bandit14.key bandit14@bandit.labs.overthewire.org -p 2220
+now I can access
+cat /etc/bandit_pass/bandit14
+fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
+
+level 14-15:
+ssh -i bandit14.key bandit14@bandit.labs.overthewire.org -p 2220
+nc localhost 30000(enter password from previous level)
+fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
+password: jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
+
+level 15-16:
+ssh bandit13@bandit.labs.overthewire.org -p 2220
+jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
