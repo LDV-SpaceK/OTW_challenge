@@ -159,8 +159,60 @@ fGrHPx402xGC7U7rXKDaxiWFTOiF0ENq
 password: jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
 
 level 15-16:
-ssh bandit13@bandit.labs.overthewire.org -p 2220
+ssh bandit15@bandit.labs.overthewire.org -p 2220
 jN2kgmIXJ6fShzhT2avhotn4Zcka6tnt
+openssl --help
+openssl s_client --help
+openssl s_client localhost:30001
+enter the current password
+get the flag: JQttfApK4SeyHwDlI9SXGR50qclOAil1
+
+level 16-17:
+ssh bandit16@bandit.labs.overthewire.org -p 2220
+JQttfApK4SeyHwDlI9SXGR50qclOAil1
+because there are many port between 31000 and 32000 so, I have to scan using nmap
+nmap localhost -p 31000-32000
+-> 5 open port but no information about service
+so I use -sV option to get the service information
+nmap -sV localhost -p 31000-32000
+there are two ssl service, port 31518 only do echo, so I access port 31790 
+openssl s_client localhost:31790
+like the previous level, I enter the current password and get the private key
+copy it, and echo it into bandit17.key
+ls -al, it seem to be no executable permission, so I give it 
+chmod 700 bandit17.key
+now I have the next level key
+
+level 17-18:
+ssh -i bandit17.key bandit17@bandit.labs.overthewire.org -p 2220
+man diff
+diff passwords.old passwords.new
+Flag in the new one: 
+hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
+
+level 18-19:
+ssh bandit18@bandit.labs.overthewire.org -p 2220
+hga5tuuCLF6fFzUpnagiMN8ssu9LFrdg
+I saw "Byebye !"
+so the hint in the question is file .bashrc can run without my command in order to log me out
+I try to use command "ls -al" 
+ssh bandit18@bandit.labs.overthewire.org -p 2220 ls -al, enter the current password
+it actually worked, so I saw file .bashrc and readme, so I ran cat readme
+ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme, enter password
+and I got the flag:
+awhqfNnAbc1naukrpqDYcF95h7HoMTrC
+
+level 19-20:
+ssh bandit19@bandit.labs.overthewire.org -p 2220
+awhqfNnAbc1naukrpqDYcF95h7HoMTrC
+ls -al, there is a file named bandit20-do
+The user permission is s so only user bandit20 can execute
+so I have to access the file as user bandit20
+./bandit20-do ls /etc/bandit_pass
+I see bandit20 on that list, so I run command
+./bandit20-do cat /etc/bandit_pass/bandit20
+I got the flag: 
+VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 
 
 
