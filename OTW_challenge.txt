@@ -214,6 +214,92 @@ I see bandit20 on that list, so I run command
 I got the flag: 
 VxCazJaVykI6W36BkBU0mJTCM8rR95XT
 
+level 20-21:
+ssh bandit20@bandit.labs.overthewire.org -p 2220
+VxCazJaVykI6W36BkBU0mJTCM8rR95XT
+đề bài yêu cầu mình phải đẩy một dòng lệnh lên port mình tự tạo
+echo -n "VxCazJaVykI6W36BkBU0mJTCM8rR95XT" | nc -l -p 9999 &
+echo current password rồi connect với cổng tự tạo là 9999 với flag -l, 
+& cho phép ta tiếp tục thao tác với terminal sau khi kết nối đến port đó
+./suconnect 9999
+nó sẽ so sánh password mình đẩy lên, nếu đúng cho ra flag:
+NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
+
+level 21-22:
+ssh bandit21@bandit.labs.overthewire.org -p 2220
+NvEJF7oVjkddltPSrdKEFOllh9V1IBcq
+đầu tiên đi đến thư mục đề bài chỉ định
+cd /etc/cron.d
+ls -al
+nhận thấy có các cronjob 15 17 22 23 24 25, mình thấy đây là level 22 nên đã xem cronjob_bandit22
+cat cronjob_bandit22
+cat /usr/bin/cronjob_bandit22.sh
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+nhận được flag:
+WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+
+level 22-23:
+ssh bandit22@bandit.labs.overthewire.org -p 2220
+WdDozAdTM2z9DiFEQ2mGlwngMfj4EZff
+thực hiện các bước như level trước nhưng đổi user thành bandit23
+cd /etc/cron.d/
+ls -al
+cat cronjob_bandit23
+cat /usr/bin/cronjob_bandit23.sh
+đến đây thì đã xuất hiện một đoạn script, cũng như bước trước dòng cuối sẽ chỉ chúng ta đến flag,
+tuy nhiên, sau khi đọc đoạn script thì tên file đã được đổi 
+$myname ám chỉ đến user bandit23
+echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+chúng ta lấy được tên file: 8ca319486bfbbc3663ea0fbe81326349
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+lấy được flag:
+QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
+
+level 23-24:
+ssh bandit23@bandit.labs.overthewire.org -p 2220
+QYw0Y2aiA672PsMmh9puTQuhoz8SyR2G
+thực hiện các bước như level trên 
+chúng ta có đoạn script
+tạo một folder mới ở tmp
+mkdir /tmp/spacek
+truy cập vào đó
+cd /tmp/spacek
+nano spacek.sh
+viết đoạn script:
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/spacek/password.txt
+sau đó save lại
+sửa quyền của file 
+chmod 777 spacek.sh
+copy file này vào /var/spool/bandit24/foo
+cp spacek.sh /var/spool/bandit24/foo
+ls -al
+chúng ta đã thấy có file password.txt
+cat password.txt chúng ta lấy được flag:
+VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
+
+Level 24 - 25
+ssh bandit24@bandit.labs.overthewire.org -p 2220
+VAfGXJ1PBSsPSnvsjI8p759leLZ9GGar
+vì đề bài yêu cầu nhập vào password và pin trong khoảng từ 0 đến 9999 nên ta không thể nào nhập thủ công được :)), nên phải dùng đến vòng lặp
+đầu tiên, tạo thư mục tại tmp
+mkdir /tmp/spacek/
+cd /tmp/spacek/
+mình sẽ tự viết một cái script:
+nano password.sh
+
+sau khi viết xong script, lưu nó lại rồi chỉnh quyền execute cho file đó
+chmod +x password.sh
+rồi chạy file kết hợp với kết nối vào cổng 30002
+./password.sh | nc localhost 30002
+đợi nó chạy xong chúng ta đã lấy được flag (vì flag nằm ở cuối)
+
+FLAG:
+p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
+
+
+
+
 
 
 
