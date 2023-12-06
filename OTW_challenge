@@ -297,6 +297,142 @@ rồi chạy file kết hợp với kết nối vào cổng 30002
 FLAG:
 p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
 
+ Level 25 - 26
+ssh bandit25@bandit.labs.overthewire.org -p 2220
+p7TaowMYrmu23Ol8hiZh9UvD0O9hpx8d
+ls -al
+thấy có banditkey26 nên thử đăng nhập vào bandit26
+ssh -i bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
+tuy nhiên, server đã tự logout ngay sau đó
+cat /etc/passwd | grep bandit26
+mình đã tìm thấy địa chỉ của bandit26 
+cat /usr/bin/showtext
+nó đã hiện ra một đoạn script có lệnh more, nên mình đã tìm hiểu more
+thu nhỏ terminal và thử log in lại bandit26
+ta có thể thấy more + ...%
+sử dụng vim bằng cách phím v rồi dùng lệnh shell
+:set shell=/bin/bash
+:shell 
+ta đã vào được với tư cách là bandit26
+
+sau một loạt thao tác như trên ảnh, mình đã lấy được flag
+FLAG:
+c7GvcKlw9mC7aUQaPx7nwFstuAIBw1o1
+
+ Level 26 - 27
+ở level trước mình đã log in được vào bandit26 và thực hiện lệnh 
+ls -al 
+mình đã thấy có bandit27-do, nên đã nhớ đến level trước có thể mở được pass bằng bandit27
+
+mình đã lấy được flag
+FLAG:
+YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
+
+Level 27 - 28 
+ssh bandit27@bandit.labs.overthewire.org -p 2220
+YnQpBuifNMas1hcUFk70ZmqkhUU2EuaS
+đầu tiên tạo thư mục mới trong tmp
+mkdir /tmp/gitclone
+sử dụng lệnh git clone tại port 2220 để clone về máy chủ của mình
+git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo
+nhập mật khẩu hiện tại, sau đó git đó đã được clone về máy mình
+ls 
+có thư mục repo
+cd repo
+ls
+có file README, mở file này
+cat README
+ta đã có được flag
+
+FLAG:
+AVanL161y9rsbcJIsFHuw35rjaOM19nR
+
+Level 28 - 29
+ssh bandit28@bandit.labs.overthewire.org -p 2220
+AVanL161y9rsbcJIsFHuw35rjaOM19nR
+thực hiện clone giống bước trước
+sau đó thực hiện lệnh 
+ls -al
+ta thấy có file README.md
+cat README.md
+
+sử dụng lệnh git log để check log
+git log
+
+nhận thấy fix info leak có vẻ chứa thông tin, copy commit của nó và thực hiện git show
+git show 14f754b3ba6531a2b89df6ccae6446e8969a41f3
+
+ta đã có được flag
+FLAG:
+tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S
+
+Level 29 - 30
+ssh bandit29@bandit.labs.overthewire.org -p 2220
+tQKvmcwNYcFS6vmPHIUSI3ShmsrQZK8S 
+thực hiện các bước như level trước, nhưng đã có điểm khác, sau khi cat README.md, ta có
+
+nghĩ đến việc branch này không có, ta chuyển branch khác, đầu tiên phải xem các branch
+git branch -a
+nó hiện ra 4 branch, mình phải check lần lượt từng branch
+git checkout dev
+rất may là mình đã lấy được flag
+
+FLAG:
+xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
+
+Level 30 - 31
+ssh bandit30@bandit.labs.overthewire.org -p 2220
+xbhV3HpNGlTIdnjUrdAlPzc2L6y9EOnS
+thực hiện các bước như level trên, nhưng khi cat README.md, lại có sự khác biệt, mình đã kiểm tra các bước như level trước nhưng không có gì xảy ra, vậy nên mình đã nghĩ đến git tagging
+git tag
+hiện ra một tag là secret
+git show secret
+ta đã có được flag
+
+FLAG:
+OoffzGDlzhAlerFJ2cAiz1D41JW1Mhmt
+
+Level 31 - 32
+ssh bandit31@bandit.labs.overthewire.org -p 2220
+OoffzGDlzhAlerFJ2cAiz1D41JW1Mhmt
+thực hiện các bước như level trước
+đầu tiên mình phải echo như yêu cầu
+echo "May I come in" > key.txt
+sau đó add key(flag -f để tránh .gitignore)
+git add -f key.txt
+sau đó tạo một commit mới 
+git commit -m "abc"
+đẩy lên git
+git push -u
+nhập mật khẩu rồi  lấy flag
+
+FLAG:
+rmCBvG56y58BXzv98yZGdO7ATVL5dW8y
+Level 32 - 33
+ssh bandit32@bandit.labs.overthewire.org -p 2220
+rmCBvG56y58BXzv98yZGdO7ATVL5dW8y
+chúng ta đến với màn hình uppershell
+thử lệnh ls, exit nhưng không được
+sử dụng lệnh 
+$0 
+trở về màn hình user
+ls -al
+nhận thấy file uppershell được sở hữu bởi user bandit33
+mình check lại
+whoami
+đúng là bandit33, mình chỉ việc lấy mật khẩu thôi
+cat /etc/bandit_pass/bandit33
+
+FLAG:
+odHo63fHiFqcWWJG9rLiLDtPm45KzUKy
+Level 33 - 34
+
+ssh bandit33@bandit.labs.overthewire.org -p 2220
+odHo63fHiFqcWWJG9rLiLDtPm45KzUKy
+
+
+
+
 
 
 
